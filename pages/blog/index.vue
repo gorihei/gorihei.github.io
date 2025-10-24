@@ -45,8 +45,8 @@
       <div class="space-y-8">
         <NuxtLink
           v-for="(post, index) in paginatedPosts"
-          :key="post._path"
-          :to="post._path"
+          :key="post.path"
+          :to="post.path"
           class="block"
         >
           <article
