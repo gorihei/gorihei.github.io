@@ -136,17 +136,20 @@ const postsPerPage = 10
 
 // Fetch blog posts from Nuxt Content
 const { data: blogPosts } = await useAsyncData('blog-posts', () => 
-  queryContent('/blog')
-    .sort({ date: -1 })
-    .find()
+  queryCollection('content')
+    .where('path', 'LIKE', '/blog/%')
+    .order('date', 'DESC')
+    .all()
 )
 
 // Extract unique categories from posts
 const categories = computed(() => {
-  const cats = new Set(['All'])
-  blogPosts.value?.forEach((post: any) => {
-    if (post.category) cats.add(post.category)
-  })
+  const cats = new Set<string>(['All'])
+  if (blogPosts.value) {
+    blogPosts.value.forEach((post: any) => {
+      if (post.category) cats.add(post.category)
+    })
+  }
   return Array.from(cats)
 })
 

@@ -59,7 +59,7 @@ const route = useRoute()
 
 // Fetch the blog post from Nuxt Content
 const { data: post } = await useAsyncData(`blog-${route.path}`, () => 
-  queryContent(route.path).findOne()
+  queryCollection('content').path(route.path).first()
 )
 
 // If post not found, show 404

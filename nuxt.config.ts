@@ -38,7 +38,6 @@ export default defineNuxtConfig({
   },
 
   // GitHub Pages deployment configuration
-  ssr: false,
   target: 'static',
 
   // Prerender blog posts for static generation
