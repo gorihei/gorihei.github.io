@@ -4,9 +4,7 @@
       <!-- Header -->
       <div class="text-center mb-16 animate-fade-in">
         <h1 class="page-title">ポートフォリオ</h1>
-        <p class="text-xl text-gray-600 dark:text-gray-400">
-          最近のプロジェクトと作品のショーケース
-        </p>
+        <p class="text-xl text-gray-600 dark:text-gray-400">個人開発したやつ</p>
       </div>
 
       <!-- Filter Tags -->
@@ -115,72 +113,16 @@ useHead({
 
 const selectedTag = ref("すべて");
 
-const tags = ["すべて", "Webアプリ", "モバイル", "デザイン", "オープンソース"];
+const tags = ["すべて", "Webアプリ", "デスクトップアプリ", "オープンソース"];
 
 const projects = [
   {
     id: 1,
-    title: "Eコマースプラットフォーム",
-    description:
-      "ショッピングカート、決済統合、管理ダッシュボードを備えたフル機能のEコマースプラットフォーム。",
+    title: "Test",
+    description: "hoge hoge fuga fuga piyo piyo",
     icon: "🛒",
     technologies: ["Vue.js", "Nuxt.js", "Node.js", "MongoDB"],
     category: "Webアプリ",
-    demoUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    id: 2,
-    title: "タスク管理アプリ",
-    description:
-      "リアルタイム更新とチーム機能を備えた共同タスク管理アプリケーション。",
-    icon: "📋",
-    technologies: ["React", "TypeScript", "Firebase"],
-    category: "Webアプリ",
-    demoUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    id: 3,
-    title: "天気予報モバイルアプリ",
-    description:
-      "位置情報ベースの天気情報とアラート機能を備えた美しい天気予報アプリ。",
-    icon: "🌤️",
-    technologies: ["React Native", "API Integration"],
-    category: "モバイル",
-    demoUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    id: 4,
-    title: "ポートフォリオデザインシステム",
-    description:
-      "再利用可能なコンポーネントとドキュメントを備えた包括的なデザインシステム。",
-    icon: "🎨",
-    technologies: ["Figma", "Vue.js", "Storybook"],
-    category: "デザイン",
-    demoUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    id: 5,
-    title: "ブログエンジン",
-    description:
-      "マークダウンサポートとSEO最適化を備えた軽量で高速なブログエンジン。",
-    icon: "📝",
-    technologies: ["Nuxt.js", "Content Module", "Tailwind"],
-    category: "Webアプリ",
-    demoUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    id: 6,
-    title: "UIコンポーネントライブラリ",
-    description:
-      "アクセシビリティ優先のアプローチを採用したオープンソースVueコンポーネントライブラリ。",
-    icon: "🧩",
-    technologies: ["Vue 3", "TypeScript", "Vite"],
-    category: "オープンソース",
     demoUrl: "#",
     githubUrl: "#",
   },

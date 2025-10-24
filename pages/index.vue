@@ -6,7 +6,7 @@
         <h1
           class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 animate-slide-up"
         >
-          ようこそ
+          ここは
           <div class="inline-block align-middle mx-4">
             <div
               class="w-48 h-24 rounded-full bg-gradient-to-br from-primary-500 to-blue-600 flex items-center justify-center text-white text-4xl font-bold animate-float shadow-2xl"
@@ -14,22 +14,19 @@
               Gori Hei
             </div>
           </div>
-          の
+          が
           <span
             class="block bg-gradient-to-r from-primary-600 to-blue-600 bg-clip-text text-transparent"
           >
-            ポートフォリオへ
+            適当に作ったサイト
           </span>
         </h1>
-        <div
-          class="flex flex-wrap justify-center gap-4 animate-slide-up"
-          style="animation-delay: 0.4s"
+        <p
+          class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-8 animate-slide-up"
+          style="animation-delay: 0.2s"
         >
-          <NuxtLink to="/about" class="btn-primary"> プロフィール </NuxtLink>
-          <NuxtLink to="/portfolio" class="btn-secondary">
-            プロジェクトを見る
-          </NuxtLink>
-        </div>
+          まあ、暇つぶしに見ていってください
+        </p>
       </div>
     </section>
 
@@ -78,19 +75,20 @@ const navigationCards = [
   {
     icon: "👤",
     title: "プロフィール",
-    description: "経歴、スキル、経験について詳しくご紹介します。",
+    description:
+      "よくいるWeb系エンジニアの自己紹介です。特に珍しいことは書いてません。",
     path: "/about",
   },
   {
     icon: "💼",
     title: "ポートフォリオ",
-    description: "これまでに手がけたプロジェクトや作品をご覧いただけます。",
+    description: "個人開発したもの並べてます。まあ、見てやってください。",
     path: "/portfolio",
   },
   {
     icon: "📝",
     title: "ブログ",
-    description: "技術記事やチュートリアル、最新の知見を共有しています。",
+    description: "たまに技術ネタ書いてます。誰得かわかりませんが。",
     path: "/blog",
   },
 ];

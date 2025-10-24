@@ -5,7 +5,7 @@
       <div class="text-center mb-16 animate-fade-in">
         <h1 class="page-title">ブログ</h1>
         <p class="text-xl text-gray-600 dark:text-gray-400">
-          Web開発に関する考察、チュートリアル、洞察
+          たぶんほとんど書かない
         </p>
       </div>
 
@@ -64,7 +64,7 @@
                 <div
                   class="w-full md:w-48 h-48 rounded-lg bg-gradient-to-br from-primary-400 to-blue-500 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-300"
                 >
-                  {{ post.icon }}
+                  {{ post.icon || "📝" }}
                 </div>
               </div>
 
@@ -74,7 +74,7 @@
                   <span
                     class="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm rounded-full font-semibold"
                   >
-                    {{ post.category }}
+                    {{ post.category || "その他" }}
                   </span>
                   <span class="text-sm text-gray-500 dark:text-gray-400">
                     {{ formatDate(post.date) }}
@@ -90,14 +90,14 @@
                 <p
                   class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed"
                 >
-                  {{ post.excerpt }}
+                  {{ post.excerpt || post.description }}
                 </p>
 
                 <div class="flex items-center justify-between">
                   <div
                     class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400"
                   >
-                    <span>⏱️ {{ post.readTime }}分で読めます</span>
+                    <span>⏱️ {{ post.readTime || 5 }}分で読めます</span>
                   </div>
                   <span
                     class="text-primary-600 dark:text-primary-400 font-semibold hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-300"
@@ -144,7 +144,6 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import type { BlogPost } from "~/types/blog";
 
 useHead({
   title: "Blog",
@@ -155,72 +154,24 @@ const selectedCategory = ref("すべて");
 const currentPage = ref(1);
 const postsPerPage = 10;
 
-// Category filter options
-const categories = ["すべて", "チュートリアル", "ケーススタディ", "オピニオン"];
+// Fetch blog posts from content directory
+const { data: articles } = await useAsyncData("blog-posts", () =>
+  queryContent("/blog")
+    .where({ _path: { $ne: "/blog/template" } })
+    .sort({ date: -1 })
+    .find()
+);
 
-// Mock blog posts data for demonstration
-const blogPosts = [
-  {
-    title: "TypeScript Best Practices",
-    excerpt:
-      "Essential TypeScript patterns and practices that will make your code more maintainable and less error-prone.",
-    icon: "📘",
-    category: "チュートリアル",
-    date: "2024-10-08",
-    readTime: 9,
-    path: "/blog/typescript-best-practices",
-  },
-  {
-    title: "State Management in Vue 3",
-    excerpt:
-      "Deep dive into state management patterns in Vue 3, comparing Pinia, Vuex, and the Composition API approach.",
-    icon: "🗄️",
-    category: "チュートリアル",
-    date: "2024-10-12",
-    readTime: 12,
-    path: "/blog/state-management-vue3",
-  },
-  {
-    title: "Building Accessible Web Applications",
-    excerpt:
-      "A practical guide to creating web applications that are accessible to everyone, including people with disabilities.",
-    icon: "♿",
-    category: "チュートリアル",
-    date: "2024-10-15",
-    readTime: 10,
-    path: "/blog/building-accessible-web-apps",
-  },
-  {
-    title: "Case Study: E-Commerce Platform Redesign",
-    excerpt:
-      "How we improved conversion rates by 40% through a complete redesign and performance optimization of an e-commerce platform.",
-    icon: "📊",
-    category: "ケーススタディ",
-    date: "2024-10-10",
-    readTime: 15,
-    path: "/blog/ecommerce-platform-redesign",
-  },
-  {
-    title: "The Future of Web Development",
-    excerpt:
-      "Exploring emerging trends and technologies that are shaping the future of web development, from AI integration to edge computing.",
-    icon: "🔮",
-    category: "オピニオン",
-    date: "2024-10-18",
-    readTime: 6,
-    path: "/blog/future-of-web-development",
-  },
-  {
-    title: "Getting Started with Nuxt 3 and Vue 3",
-    excerpt:
-      "Learn how to build modern web applications with Nuxt 3 and Vue 3. This comprehensive guide covers setup, routing, and best practices.",
-    icon: "🚀",
-    category: "チュートリアル",
-    date: "2024-10-20",
-    readTime: 8,
-    path: "/blog/getting-started-with-nuxt3",
-  },
-];
+// Extract unique categories from articles
+const categories = computed(() => {
+  const cats = new Set<string>(["すべて"]);
+  articles.value?.forEach((article: any) => {
+    if (article.category) {
+      cats.add(article.category);
+    }
+  });
+  return Array.from(cats);
+});
 
 // Format date for display
 const formatDate = (dateString: string) => {
@@ -233,20 +184,22 @@ const formatDate = (dateString: string) => {
 };
 
 const filteredPosts = computed(() => {
-  let posts = blogPosts || [];
+  let posts = articles.value || [];
 
   // Filter by category
   if (selectedCategory.value !== "すべて") {
-    posts = posts.filter((post) => post.category === selectedCategory.value);
+    posts = posts.filter(
+      (post: any) => post.category === selectedCategory.value
+    );
   }
 
   // Filter by search query
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase();
     posts = posts.filter(
-      (post) =>
-        post.title.toLowerCase().includes(query) ||
-        post.excerpt.toLowerCase().includes(query)
+      (post: any) =>
+        post.title?.toLowerCase().includes(query) ||
+        post.description?.toLowerCase().includes(query)
     );
   }
 
@@ -259,6 +212,7 @@ const paginatedPosts = computed(() => {
   const end = start + postsPerPage;
   return filteredPosts.value.slice(start, end);
 });
+
 const totalPages = computed(() => {
   return Math.ceil(filteredPosts.value.length / postsPerPage);
 });

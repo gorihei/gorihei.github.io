@@ -1,8 +1,33 @@
 <template>
   <header
-    class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700"
+    ref="headerRef"
+    class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 relative"
+    @mousemove="handleMouseMove"
   >
-    <nav class="container mx-auto px-4 py-4">
+    <!-- Cute Eyes Mouse Stalker -->
+    <div
+      class="pointer-events-none absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex gap-3 z-10"
+    >
+      <!-- Left Eye -->
+      <div
+        class="relative w-10 h-10 bg-white dark:bg-gray-100 rounded-full shadow-lg border-2 border-gray-300 dark:border-gray-400"
+      >
+        <div
+          class="absolute w-5 h-5 bg-gray-900 rounded-full transition-all duration-200 ease-out"
+          :style="leftPupilStyle"
+        />
+      </div>
+      <!-- Right Eye -->
+      <div
+        class="relative w-10 h-10 bg-white dark:bg-gray-100 rounded-full shadow-lg border-2 border-gray-300 dark:border-gray-400"
+      >
+        <div
+          class="absolute w-5 h-5 bg-gray-900 rounded-full transition-all duration-200 ease-out"
+          :style="rightPupilStyle"
+        />
+      </div>
+    </div>
+    <nav class="container mx-auto px-4 py-4 relative z-10">
       <div class="flex items-center justify-between">
         <NuxtLink
           to="/"
@@ -76,7 +101,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 
 const menuItems = [
   { name: "プロフィール", path: "/about" },
@@ -85,6 +110,9 @@ const menuItems = [
 ];
 
 const isMobileMenuOpen = ref(false);
+const headerRef = ref<HTMLElement | null>(null);
+const mouseX = ref(0);
+const mouseY = ref(0);
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
@@ -93,6 +121,62 @@ const toggleMobileMenu = () => {
 const closeMobileMenu = () => {
   isMobileMenuOpen.value = false;
 };
+
+const handleMouseMove = (e: MouseEvent) => {
+  mouseX.value = e.clientX;
+  mouseY.value = e.clientY;
+};
+
+// ページ全体のマウス移動を監視
+onMounted(() => {
+  window.addEventListener("mousemove", handleMouseMove);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("mousemove", handleMouseMove);
+});
+
+// 瞳の位置を計算（目玉の中心からの相対位置）
+const calculatePupilPosition = (eyeX: number, eyeY: number) => {
+  const dx = mouseX.value - eyeX;
+  const dy = mouseY.value - eyeY;
+  const angle = Math.atan2(dy, dx);
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  const maxMove = 12; // 最大移動距離（ピクセル）を増加
+
+  // 距離に応じてより敏感に反応
+  const normalizedDistance = Math.min(distance / 50, 1);
+
+  return {
+    left: `${20 + Math.cos(angle) * maxMove * normalizedDistance}px`,
+    top: `${20 + Math.sin(angle) * maxMove * normalizedDistance}px`,
+    transform: "translate(-50%, -50%)",
+  };
+};
+
+const leftPupilStyle = computed(() => {
+  if (!headerRef.value)
+    return { left: "20px", top: "20px", transform: "translate(-50%, -50%)" };
+  const rect = headerRef.value.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const eyeOffset = 26; // 目の間隔の半分
+  return calculatePupilPosition(
+    centerX - eyeOffset,
+    rect.top + rect.height / 2
+  ); // 左目の中心
+});
+
+const rightPupilStyle = computed(() => {
+  if (!headerRef.value)
+    return { left: "20px", top: "20px", transform: "translate(-50%, -50%)" };
+  const rect = headerRef.value.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const eyeOffset = 26; // 目の間隔の半分
+  return calculatePupilPosition(
+    centerX + eyeOffset,
+    rect.top + rect.height / 2
+  ); // 右目の中心
+});
 </script>
 
 <style scoped>
