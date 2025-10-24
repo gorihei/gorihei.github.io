@@ -143,7 +143,12 @@ const { data: blogPosts } = await useAsyncData('blog-posts', async () => {
   
   // Parse meta JSON and flatten into post objects
   const parsedPosts = posts.map(post => {
-    const meta = typeof post.meta === 'string' ? JSON.parse(post.meta) : (post.meta || {})
+    let meta = {}
+    try {
+      meta = typeof post.meta === 'string' ? JSON.parse(post.meta) : (post.meta || {})
+    } catch (e) {
+      console.error('Failed to parse meta JSON for post:', post.path, e)
+    }
     return {
       ...post,
       ...meta,
@@ -153,8 +158,8 @@ const { data: blogPosts } = await useAsyncData('blog-posts', async () => {
   
   // Sort by date
   return parsedPosts.sort((a, b) => {
-    const dateA = new Date(a.date || 0)
-    const dateB = new Date(b.date || 0)
+    const dateA = a.date ? new Date(a.date) : new Date('1970-01-01')
+    const dateB = b.date ? new Date(b.date) : new Date('1970-01-01')
     return dateB.getTime() - dateA.getTime()
   })
 })

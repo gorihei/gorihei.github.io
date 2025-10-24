@@ -64,7 +64,12 @@ const { data: post } = await useAsyncData(`blog-${route.path}`, async () => {
   if (!result) return null
   
   // Parse meta JSON and flatten
-  const meta = typeof result.meta === 'string' ? JSON.parse(result.meta) : (result.meta || {})
+  let meta = {}
+  try {
+    meta = typeof result.meta === 'string' ? JSON.parse(result.meta) : (result.meta || {})
+  } catch (e) {
+    console.error('Failed to parse meta JSON for post:', result.path, e)
+  }
   return {
     ...result,
     ...meta,
