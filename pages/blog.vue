@@ -136,12 +136,33 @@ const currentPage = ref(1)
 const postsPerPage = 10
 
 // Fetch blog posts from Nuxt Content
-const { data: blogPosts } = await useAsyncData('blog-posts', () => 
-  queryCollection('content')
+const { data: blogPosts } = await useAsyncData('blog-posts', async () => {
+  const posts = await queryCollection('content')
     .where('path', 'LIKE', '/blog/%')
-    .order('date', 'DESC')
     .all()
-)
+  
+  // Parse meta JSON and flatten into post objects
+  const parsedPosts = posts.map(post => {
+    let meta = {}
+    try {
+      meta = typeof post.meta === 'string' ? JSON.parse(post.meta) : (post.meta || {})
+    } catch (e) {
+      console.error('Failed to parse meta JSON for post:', post.path, e)
+    }
+    return {
+      ...post,
+      ...meta,
+      excerpt: post.description || post.excerpt || '',
+    }
+  })
+  
+  // Sort by date
+  return parsedPosts.sort((a, b) => {
+    const dateA = a.date ? new Date(a.date) : new Date('1970-01-01')
+    const dateB = b.date ? new Date(b.date) : new Date('1970-01-01')
+    return dateB.getTime() - dateA.getTime()
+  })
+})
 
 // Extract unique categories from posts
 const categories = computed(() => {
