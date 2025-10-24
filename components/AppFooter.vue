@@ -4,7 +4,7 @@
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0">
           <p class="text-gray-600 dark:text-gray-400">
-            © {{ currentYear }} gorihei. All rights reserved.
+            {{ $t('footer.copyright', { year: currentYear }) }}
           </p>
         </div>
         

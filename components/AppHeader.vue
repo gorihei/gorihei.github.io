@@ -9,19 +9,23 @@
           gorihei
         </NuxtLink>
         
-        <div class="hidden md:flex items-center space-x-8">
+        <div class="hidden md:flex items-center space-x-4">
           <NuxtLink
             v-for="item in menuItems"
             :key="item.path"
             :to="item.path"
             class="nav-link relative text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors duration-300"
           >
-            {{ item.name }}
+            {{ $t(item.name) }}
           </NuxtLink>
-          <ThemeToggle />
+          <div class="flex items-center gap-2">
+            <LanguageSwitcher />
+            <ThemeToggle />
+          </div>
         </div>
 
         <div class="md:hidden flex items-center gap-2">
+          <LanguageSwitcher />
           <ThemeToggle />
           <button
             @click="toggleMobileMenu"
@@ -46,7 +50,7 @@
             @click="closeMobileMenu"
             class="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors duration-300"
           >
-            {{ item.name }}
+            {{ $t(item.name) }}
           </NuxtLink>
         </div>
       </Transition>
@@ -58,9 +62,9 @@
 import { ref } from 'vue'
 
 const menuItems = [
-  { name: 'About', path: '/about' },
-  { name: 'Portfolio', path: '/portfolio' },
-  { name: 'Blog', path: '/blog' },
+  { name: 'nav.about', path: '/about' },
+  { name: 'nav.portfolio', path: '/portfolio' },
+  { name: 'nav.blog', path: '/blog' },
 ]
 
 const isMobileMenuOpen = ref(false)

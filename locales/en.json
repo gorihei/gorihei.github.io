@@ -1,0 +1,134 @@
+{
+  "nav": {
+    "about": "About",
+    "portfolio": "Portfolio",
+    "blog": "Blog"
+  },
+  "home": {
+    "welcome": "Welcome to My",
+    "portfolio": "Portfolio",
+    "tagline": "Full Stack Developer | Designer | Creator",
+    "aboutMe": "About Me",
+    "viewProjects": "View Projects",
+    "whatIDo": "What I Do",
+    "design": {
+      "title": "Design",
+      "description": "Creating beautiful, intuitive user interfaces with modern design principles."
+    },
+    "development": {
+      "title": "Development",
+      "description": "Building robust, scalable applications with cutting-edge technologies."
+    },
+    "performance": {
+      "title": "Performance",
+      "description": "Optimizing for speed, efficiency, and exceptional user experience."
+    },
+    "cta": {
+      "title": "Let's Work Together",
+      "description": "Have a project in mind? Let's create something amazing together.",
+      "button": "Get in Touch"
+    }
+  },
+  "about": {
+    "title": "About Me",
+    "subtitle": "Passionate developer creating digital experiences",
+    "intro": "I'm a passionate full-stack developer with expertise in modern web technologies. I love creating beautiful, functional, and user-friendly applications that solve real-world problems.",
+    "intro2": "With a strong foundation in both frontend and backend development, I strive to deliver high-quality solutions that exceed expectations.",
+    "skillsTitle": "Skills & Expertise",
+    "experienceTitle": "Experience",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "tools": "Tools & Others",
+      "design": "Design"
+    },
+    "jobs": {
+      "fullStack": {
+        "title": "Full Stack Developer",
+        "company": "Tech Company",
+        "period": "2023 - Present",
+        "description": "Developing modern web applications using Vue.js, Nuxt.js, and Node.js. Leading frontend architecture decisions and mentoring junior developers."
+      },
+      "frontend": {
+        "title": "Frontend Developer",
+        "company": "Digital Agency",
+        "period": "2021 - 2023",
+        "description": "Built responsive and interactive user interfaces. Collaborated with designers and backend teams to deliver high-quality products."
+      },
+      "junior": {
+        "title": "Junior Developer",
+        "company": "Startup",
+        "period": "2020 - 2021",
+        "description": "Started my professional journey learning web development best practices and contributing to various projects."
+      }
+    },
+    "connect": {
+      "title": "Let's Connect",
+      "description": "I'm always open to discussing new projects, creative ideas, or opportunities.",
+      "emailButton": "Email Me",
+      "githubButton": "GitHub"
+    }
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "subtitle": "A showcase of my recent projects and work",
+    "categories": {
+      "all": "All",
+      "webApp": "Web App",
+      "mobile": "Mobile",
+      "design": "Design",
+      "openSource": "Open Source"
+    },
+    "projects": {
+      "ecommerce": {
+        "title": "E-Commerce Platform",
+        "description": "A full-featured e-commerce platform with shopping cart, payment integration, and admin dashboard."
+      },
+      "taskManagement": {
+        "title": "Task Management App",
+        "description": "Collaborative task management application with real-time updates and team features."
+      },
+      "weatherApp": {
+        "title": "Weather Mobile App",
+        "description": "Beautiful weather forecast app with location-based weather information and alerts."
+      },
+      "designSystem": {
+        "title": "Portfolio Design System",
+        "description": "Comprehensive design system with reusable components and documentation."
+      },
+      "blogEngine": {
+        "title": "Blog Engine",
+        "description": "Lightweight and fast blog engine with markdown support and SEO optimization."
+      },
+      "componentLibrary": {
+        "title": "UI Component Library",
+        "description": "Open source Vue component library with accessibility-first approach."
+      }
+    },
+    "viewDemo": "View Demo",
+    "github": "GitHub",
+    "noProjects": "No projects found for this category"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Thoughts, tutorials, and insights on web development",
+    "searchPlaceholder": "Search articles...",
+    "categories": {
+      "all": "All",
+      "tutorial": "Tutorial",
+      "opinion": "Opinion",
+      "news": "News",
+      "caseStudy": "Case Study"
+    },
+    "readTime": "min read",
+    "readMore": "Read More →",
+    "noArticles": "No articles found"
+  },
+  "footer": {
+    "copyright": "© {year} gorihei. All rights reserved."
+  },
+  "theme": {
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
+  }
+}
