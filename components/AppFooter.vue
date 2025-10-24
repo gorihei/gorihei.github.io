@@ -1,13 +1,15 @@
 <template>
-  <footer class="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-20">
+  <footer
+    class="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-20"
+  >
     <div class="container mx-auto px-4 py-8">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0">
           <p class="text-gray-600 dark:text-gray-400">
-            {{ $t('footer.copyright', { year: currentYear }) }}
+            © {{ currentYear }} gorihei. All rights reserved.
           </p>
         </div>
-        
+
         <div class="flex space-x-6">
           <a
             v-for="social in socialLinks"
@@ -27,25 +29,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from "vue";
 
-const currentYear = computed(() => new Date().getFullYear())
+const currentYear = computed(() => new Date().getFullYear());
 
 const socialLinks = [
   {
-    name: 'GitHub',
-    url: 'https://github.com/gorihei',
-    icon: 'IconGitHub',
+    name: "GitHub",
+    url: "https://github.com/gorihei",
+    icon: "IconGitHub",
   },
   {
-    name: 'Twitter',
-    url: 'https://twitter.com/gorihei',
-    icon: 'IconTwitter',
+    name: "Twitter",
+    url: "https://twitter.com/gorihei",
+    icon: "IconTwitter",
   },
   {
-    name: 'LinkedIn',
-    url: 'https://linkedin.com/in/gorihei',
-    icon: 'IconLinkedIn',
+    name: "LinkedIn",
+    url: "https://linkedin.com/in/gorihei",
+    icon: "IconLinkedIn",
   },
-]
+];
 </script>

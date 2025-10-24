@@ -3,9 +3,9 @@
     <div class="max-w-6xl mx-auto">
       <!-- Header -->
       <div class="text-center mb-16 animate-fade-in">
-        <h1 class="page-title">Portfolio</h1>
+        <h1 class="page-title">ポートフォリオ</h1>
         <p class="text-xl text-gray-600 dark:text-gray-400">
-          A showcase of my recent projects and work
+          最近のプロジェクトと作品のショーケース
         </p>
       </div>
 
@@ -19,7 +19,7 @@
             'px-4 py-2 rounded-full font-semibold transition-all duration-300',
             selectedTag === tag
               ? 'bg-primary-600 text-white shadow-lg scale-105'
-              : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+              : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600',
           ]"
         >
           {{ tag }}
@@ -35,16 +35,24 @@
           :style="`animation-delay: ${index * 0.1}s`"
         >
           <!-- Project Image -->
-          <div class="relative overflow-hidden rounded-lg mb-4 bg-gradient-to-br from-primary-400 to-blue-500 h-48 flex items-center justify-center">
-            <div class="text-6xl group-hover:scale-110 transition-transform duration-300">
+          <div
+            class="relative overflow-hidden rounded-lg mb-4 bg-gradient-to-br from-primary-400 to-blue-500 h-48 flex items-center justify-center"
+          >
+            <div
+              class="text-6xl group-hover:scale-110 transition-transform duration-300"
+            >
               {{ project.icon }}
             </div>
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+            <div
+              class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"
+            ></div>
           </div>
 
           <!-- Project Info -->
           <div>
-            <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+            <h3
+              class="text-xl font-bold mb-2 text-gray-800 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300"
+            >
               {{ project.title }}
             </h3>
             <p class="text-gray-600 dark:text-gray-400 mb-4">
@@ -71,7 +79,7 @@
                 rel="noopener noreferrer"
                 class="flex-1 text-center bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-lg transition-colors duration-300 text-sm font-semibold"
               >
-                View Demo
+                デモを見る
               </a>
               <a
                 v-if="project.githubUrl"
@@ -91,7 +99,7 @@
       <div v-if="filteredProjects.length === 0" class="text-center py-20">
         <div class="text-6xl mb-4">🔍</div>
         <p class="text-xl text-gray-600 dark:text-gray-400">
-          No projects found for this category
+          このカテゴリーのプロジェクトは見つかりませんでした
         </p>
       </div>
     </div>
@@ -99,83 +107,89 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed } from "vue";
 
 useHead({
-  title: 'Portfolio',
-})
+  title: "Portfolio",
+});
 
-const selectedTag = ref('All')
+const selectedTag = ref("すべて");
 
-const tags = ['All', 'Web App', 'Mobile', 'Design', 'Open Source']
+const tags = ["すべて", "Webアプリ", "モバイル", "デザイン", "オープンソース"];
 
 const projects = [
   {
     id: 1,
-    title: 'E-Commerce Platform',
-    description: 'A full-featured e-commerce platform with shopping cart, payment integration, and admin dashboard.',
-    icon: '🛒',
-    technologies: ['Vue.js', 'Nuxt.js', 'Node.js', 'MongoDB'],
-    category: 'Web App',
-    demoUrl: '#',
-    githubUrl: '#',
+    title: "Eコマースプラットフォーム",
+    description:
+      "ショッピングカート、決済統合、管理ダッシュボードを備えたフル機能のEコマースプラットフォーム。",
+    icon: "🛒",
+    technologies: ["Vue.js", "Nuxt.js", "Node.js", "MongoDB"],
+    category: "Webアプリ",
+    demoUrl: "#",
+    githubUrl: "#",
   },
   {
     id: 2,
-    title: 'Task Management App',
-    description: 'Collaborative task management application with real-time updates and team features.',
-    icon: '📋',
-    technologies: ['React', 'TypeScript', 'Firebase'],
-    category: 'Web App',
-    demoUrl: '#',
-    githubUrl: '#',
+    title: "タスク管理アプリ",
+    description:
+      "リアルタイム更新とチーム機能を備えた共同タスク管理アプリケーション。",
+    icon: "📋",
+    technologies: ["React", "TypeScript", "Firebase"],
+    category: "Webアプリ",
+    demoUrl: "#",
+    githubUrl: "#",
   },
   {
     id: 3,
-    title: 'Weather Mobile App',
-    description: 'Beautiful weather forecast app with location-based weather information and alerts.',
-    icon: '🌤️',
-    technologies: ['React Native', 'API Integration'],
-    category: 'Mobile',
-    demoUrl: '#',
-    githubUrl: '#',
+    title: "天気予報モバイルアプリ",
+    description:
+      "位置情報ベースの天気情報とアラート機能を備えた美しい天気予報アプリ。",
+    icon: "🌤️",
+    technologies: ["React Native", "API Integration"],
+    category: "モバイル",
+    demoUrl: "#",
+    githubUrl: "#",
   },
   {
     id: 4,
-    title: 'Portfolio Design System',
-    description: 'Comprehensive design system with reusable components and documentation.',
-    icon: '🎨',
-    technologies: ['Figma', 'Vue.js', 'Storybook'],
-    category: 'Design',
-    demoUrl: '#',
-    githubUrl: '#',
+    title: "ポートフォリオデザインシステム",
+    description:
+      "再利用可能なコンポーネントとドキュメントを備えた包括的なデザインシステム。",
+    icon: "🎨",
+    technologies: ["Figma", "Vue.js", "Storybook"],
+    category: "デザイン",
+    demoUrl: "#",
+    githubUrl: "#",
   },
   {
     id: 5,
-    title: 'Blog Engine',
-    description: 'Lightweight and fast blog engine with markdown support and SEO optimization.',
-    icon: '📝',
-    technologies: ['Nuxt.js', 'Content Module', 'Tailwind'],
-    category: 'Web App',
-    demoUrl: '#',
-    githubUrl: '#',
+    title: "ブログエンジン",
+    description:
+      "マークダウンサポートとSEO最適化を備えた軽量で高速なブログエンジン。",
+    icon: "📝",
+    technologies: ["Nuxt.js", "Content Module", "Tailwind"],
+    category: "Webアプリ",
+    demoUrl: "#",
+    githubUrl: "#",
   },
   {
     id: 6,
-    title: 'UI Component Library',
-    description: 'Open source Vue component library with accessibility-first approach.',
-    icon: '🧩',
-    technologies: ['Vue 3', 'TypeScript', 'Vite'],
-    category: 'Open Source',
-    demoUrl: '#',
-    githubUrl: '#',
+    title: "UIコンポーネントライブラリ",
+    description:
+      "アクセシビリティ優先のアプローチを採用したオープンソースVueコンポーネントライブラリ。",
+    icon: "🧩",
+    technologies: ["Vue 3", "TypeScript", "Vite"],
+    category: "オープンソース",
+    demoUrl: "#",
+    githubUrl: "#",
   },
-]
+];
 
 const filteredProjects = computed(() => {
-  if (selectedTag.value === 'All') {
-    return projects
+  if (selectedTag.value === "すべて") {
+    return projects;
   }
-  return projects.filter(project => project.category === selectedTag.value)
-})
+  return projects.filter((project) => project.category === selectedTag.value);
+});
 </script>
