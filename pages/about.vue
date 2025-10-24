@@ -28,7 +28,7 @@
               <h2
                 class="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-100"
               >
-                gorihei
+                Gori Hei
               </h2>
               <p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
                 Web開発してるエンジニアです。気がついたらこの業界にいました。フロントもバックも適当に触れます。
