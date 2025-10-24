@@ -44,7 +44,7 @@
       <!-- Blog Posts -->
       <div class="space-y-8">
         <article
-          v-for="(post, index) in filteredPosts"
+          v-for="(post, index) in paginatedPosts"
           :key="post.id"
           class="card group hover:scale-102 transition-all duration-300 cursor-pointer animate-slide-up"
           :style="`animation-delay: ${index * 0.1}s`"
@@ -90,7 +90,7 @@
       </div>
 
       <!-- Empty State -->
-      <div v-if="filteredPosts.length === 0" class="text-center py-20">
+      <div v-if="paginatedPosts.length === 0" class="text-center py-20">
         <div class="text-6xl mb-4">📭</div>
         <p class="text-xl text-gray-600 dark:text-gray-400">
           No articles found
@@ -98,7 +98,7 @@
       </div>
 
       <!-- Pagination -->
-      <div v-if="filteredPosts.length > 0" class="mt-12 flex justify-center gap-2">
+      <div v-if="paginatedPosts.length > 0" class="mt-12 flex justify-center gap-2">
         <button
           v-for="page in totalPages"
           :key="page"
