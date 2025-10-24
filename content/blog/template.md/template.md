@@ -1,9 +1,9 @@
 ---
-title:
-excerpt:
+title: template
+excerpt: template
 icon: ♿
-category:
-date: yyyy-MM-dd
+category: その他
+date: 2025-10-01
 readTime: 10
 ---
 
