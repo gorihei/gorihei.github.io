@@ -91,13 +91,33 @@ npm run preview
 - Category filter animations
 
 ## Next Steps (Optional Enhancements)
-1. Add actual blog content using Nuxt Content module
+1. ~~Add actual blog content using Nuxt Content module~~ ✅ Implemented
 2. Integrate a CMS for dynamic content management
 3. Add contact form with backend integration
 4. Implement actual project data
 5. Add analytics integration
 6. Set up SEO meta tags per page
 7. Add internationalization (i18n) support
+
+## Blog Post Management
+Blog posts are now managed using @nuxt/content v3. To add a new blog post:
+
+1. Create a markdown file in `content/blog/` directory
+2. Add frontmatter with metadata:
+```markdown
+---
+title: Your Post Title
+excerpt: Brief description of your post
+icon: 🚀
+category: Tutorial
+date: 2024-10-20
+readTime: 8
+---
+
+Your content here...
+```
+3. Run `npm run generate` to rebuild the static site
+4. Blog posts support full markdown syntax with syntax highlighting
 
 ## Security
 - No vulnerabilities detected in dependencies

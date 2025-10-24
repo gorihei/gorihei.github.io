@@ -43,50 +43,55 @@
 
       <!-- Blog Posts -->
       <div class="space-y-8">
-        <article
+        <NuxtLink
           v-for="(post, index) in paginatedPosts"
-          :key="post.id"
-          class="card group hover:scale-102 transition-all duration-300 cursor-pointer animate-slide-up"
-          :style="`animation-delay: ${index * 0.1}s`"
+          :key="post._path"
+          :to="post._path"
+          class="block"
         >
-          <div class="flex flex-col md:flex-row gap-6">
-            <!-- Post Image/Icon -->
-            <div class="flex-shrink-0">
-              <div class="w-full md:w-48 h-48 rounded-lg bg-gradient-to-br from-primary-400 to-blue-500 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-300">
-                {{ post.icon }}
-              </div>
-            </div>
-
-            <!-- Post Content -->
-            <div class="flex-grow">
-              <div class="flex items-center gap-3 mb-3">
-                <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm rounded-full font-semibold">
-                  {{ post.category }}
-                </span>
-                <span class="text-sm text-gray-500 dark:text-gray-400">
-                  {{ post.date }}
-                </span>
-              </div>
-
-              <h2 class="text-2xl font-bold mb-3 text-gray-800 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
-                {{ post.title }}
-              </h2>
-
-              <p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                {{ post.excerpt }}
-              </p>
-
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span>⏱️ {{ post.readTime }} min read</span>
+          <article
+            class="card group hover:scale-102 transition-all duration-300 cursor-pointer animate-slide-up"
+            :style="`animation-delay: ${index * 0.1}s`"
+          >
+            <div class="flex flex-col md:flex-row gap-6">
+              <!-- Post Image/Icon -->
+              <div class="flex-shrink-0">
+                <div class="w-full md:w-48 h-48 rounded-lg bg-gradient-to-br from-primary-400 to-blue-500 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-300">
+                  {{ post.icon }}
                 </div>
-                <button class="text-primary-600 dark:text-primary-400 font-semibold hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-300">
-                  Read More →
-                </button>
+              </div>
+
+              <!-- Post Content -->
+              <div class="flex-grow">
+                <div class="flex items-center gap-3 mb-3">
+                  <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm rounded-full font-semibold">
+                    {{ post.category }}
+                  </span>
+                  <span class="text-sm text-gray-500 dark:text-gray-400">
+                    {{ formatDate(post.date) }}
+                  </span>
+                </div>
+
+                <h2 class="text-2xl font-bold mb-3 text-gray-800 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+                  {{ post.title }}
+                </h2>
+
+                <p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                  {{ post.excerpt }}
+                </p>
+
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span>⏱️ {{ post.readTime }} min read</span>
+                  </div>
+                  <span class="text-primary-600 dark:text-primary-400 font-semibold hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-300">
+                    Read More →
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        </article>
+          </article>
+        </NuxtLink>
       </div>
 
       <!-- Empty State -->
@@ -119,6 +124,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import type { BlogPost } from '~/types/blog'
 
 useHead({
   title: 'Blog',
@@ -129,78 +135,44 @@ const selectedCategory = ref('All')
 const currentPage = ref(1)
 const postsPerPage = 10
 
-const categories = ['All', 'Tutorial', 'Opinion', 'News', 'Case Study']
+// Fetch blog posts from Nuxt Content
+const { data: blogPosts } = await useAsyncData('blog-posts', () => 
+  queryCollection('content')
+    .where('path', 'LIKE', '/blog/%')
+    .order('date', 'DESC')
+    .all()
+)
 
-const blogPosts = [
-  {
-    id: 1,
-    title: 'Getting Started with Nuxt 3 and Vue 3',
-    excerpt: 'Learn how to build modern web applications with Nuxt 3 and Vue 3. This comprehensive guide covers setup, routing, and best practices.',
-    icon: '🚀',
-    category: 'Tutorial',
-    date: 'Oct 20, 2024',
-    readTime: 8,
-  },
-  {
-    id: 2,
-    title: 'The Future of Web Development',
-    excerpt: 'Exploring emerging trends and technologies that are shaping the future of web development, from AI integration to edge computing.',
-    icon: '🔮',
-    category: 'Opinion',
-    date: 'Oct 18, 2024',
-    readTime: 6,
-  },
-  {
-    id: 3,
-    title: 'Building Accessible Web Applications',
-    excerpt: 'A practical guide to creating web applications that are accessible to everyone, including people with disabilities.',
-    icon: '♿',
-    category: 'Tutorial',
-    date: 'Oct 15, 2024',
-    readTime: 10,
-  },
-  {
-    id: 4,
-    title: 'State Management in Vue 3',
-    excerpt: 'Deep dive into state management patterns in Vue 3, comparing Pinia, Vuex, and the Composition API approach.',
-    icon: '🗄️',
-    category: 'Tutorial',
-    date: 'Oct 12, 2024',
-    readTime: 12,
-  },
-  {
-    id: 5,
-    title: 'Case Study: E-Commerce Platform Redesign',
-    excerpt: 'How we improved conversion rates by 40% through a complete redesign and performance optimization of an e-commerce platform.',
-    icon: '📊',
-    category: 'Case Study',
-    date: 'Oct 10, 2024',
-    readTime: 15,
-  },
-  {
-    id: 6,
-    title: 'TypeScript Best Practices',
-    excerpt: 'Essential TypeScript patterns and practices that will make your code more maintainable and less error-prone.',
-    icon: '📘',
-    category: 'Tutorial',
-    date: 'Oct 8, 2024',
-    readTime: 9,
-  },
-]
+// Extract unique categories from posts
+const categories = computed(() => {
+  const cats = new Set<string>(['All'])
+  if (blogPosts.value) {
+    blogPosts.value.forEach((post: BlogPost) => {
+      if (post.category) cats.add(post.category)
+    })
+  }
+  return Array.from(cats)
+})
+
+// Format date for display
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
 
 const filteredPosts = computed(() => {
-  let posts = blogPosts
+  let posts = blogPosts.value || []
 
   // Filter by category
   if (selectedCategory.value !== 'All') {
-    posts = posts.filter(post => post.category === selectedCategory.value)
+    posts = posts.filter((post: BlogPost) => post.category === selectedCategory.value)
   }
 
   // Filter by search query
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
     posts = posts.filter(
-      post =>
+      (post: BlogPost) =>
         post.title.toLowerCase().includes(query) ||
         post.excerpt.toLowerCase().includes(query)
     )
