@@ -209,6 +209,12 @@ const filteredPosts = computed(() => {
   return posts
 })
 
+// Paginate the filtered posts
+const paginatedPosts = computed(() => {
+  const start = (currentPage.value - 1) * postsPerPage
+  const end = start + postsPerPage
+  return filteredPosts.value.slice(start, end)
+})
 const totalPages = computed(() => {
   return Math.ceil(filteredPosts.value.length / postsPerPage)
 })
