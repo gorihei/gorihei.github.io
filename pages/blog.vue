@@ -124,6 +124,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import type { BlogPost } from '~/types/blog'
 
 useHead({
   title: 'Blog',
@@ -146,7 +147,7 @@ const { data: blogPosts } = await useAsyncData('blog-posts', () =>
 const categories = computed(() => {
   const cats = new Set<string>(['All'])
   if (blogPosts.value) {
-    blogPosts.value.forEach((post: any) => {
+    blogPosts.value.forEach((post: BlogPost) => {
       if (post.category) cats.add(post.category)
     })
   }
@@ -164,14 +165,14 @@ const filteredPosts = computed(() => {
 
   // Filter by category
   if (selectedCategory.value !== 'All') {
-    posts = posts.filter((post: any) => post.category === selectedCategory.value)
+    posts = posts.filter((post: BlogPost) => post.category === selectedCategory.value)
   }
 
   // Filter by search query
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
     posts = posts.filter(
-      (post: any) =>
+      (post: BlogPost) =>
         post.title.toLowerCase().includes(query) ||
         post.excerpt.toLowerCase().includes(query)
     )
