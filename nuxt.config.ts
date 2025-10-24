@@ -45,7 +45,7 @@ export default defineNuxtConfig({
     prerender: {
       routes: ['/'],
       crawlLinks: true,
-      // Ensure 404.html is used as fallback for client-side routing
+      // Continue build even if some prerender routes fail
       failOnError: false
     }
   },
