@@ -20,18 +20,84 @@
             >
               {{ post.category }}
             </span>
-            <span class="text-sm text-gray-500 dark:text-gray-400">
-              {{ formatDate(post.date) }}
+            <span
+              v-if="post.date"
+              class="text-sm text-gray-500 dark:text-gray-400"
+            >
+              {{ formatDate(post.date as string) }}
             </span>
             <span class="text-sm text-gray-500 dark:text-gray-400">
-              ⏱️ {{ post.readTime }}分で読めます
+              ⏱️ {{ post.readTime }}分で読めます（たぶん）
             </span>
           </div>
         </div>
 
+        <!-- Table of Contents -->
+        <nav
+          v-if="post.toc && post.toc.links && post.toc.links.length > 0"
+          class="mb-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700"
+        >
+          <button
+            @click="isTocOpen = !isTocOpen"
+            class="flex items-center justify-between w-full text-xl font-bold text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300"
+          >
+            <span>📑 目次</span>
+            <span
+              class="text-2xl transition-transform duration-300"
+              :class="{ 'rotate-180': isTocOpen }"
+            >
+              ▼
+            </span>
+          </button>
+          <Transition
+            enter-active-class="transition-all duration-300 ease-out"
+            enter-from-class="opacity-0 max-h-0"
+            enter-to-class="opacity-100 max-h-[1000px]"
+            leave-active-class="transition-all duration-300 ease-in"
+            leave-from-class="opacity-100 max-h-[1000px]"
+            leave-to-class="opacity-0 max-h-0"
+          >
+            <div v-show="isTocOpen" class="mt-4 space-y-2 overflow-hidden">
+              <ul class="space-y-2">
+                <li v-for="link in post.toc.links" :key="link.id">
+                  <a
+                    :href="`#${link.id}`"
+                    class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-300 block"
+                    :class="{
+                      'ml-0': link.depth === 2,
+                      'ml-4': link.depth === 3,
+                      'ml-8': link.depth === 4,
+                    }"
+                  >
+                    {{ link.text }}
+                  </a>
+                  <!-- Nested children -->
+                  <ul
+                    v-if="link.children && link.children.length > 0"
+                    class="mt-2 space-y-2"
+                  >
+                    <li v-for="child in link.children" :key="child.id">
+                      <a
+                        :href="`#${child.id}`"
+                        class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-300 block"
+                        :class="{
+                          'ml-4': child.depth === 3,
+                          'ml-8': child.depth === 4,
+                        }"
+                      >
+                        {{ child.text }}
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </Transition>
+        </nav>
+
         <!-- Article Content -->
         <div class="prose prose-lg dark:prose-invert max-w-none">
-          <div v-html="post.content"></div>
+          <ContentRenderer :value="post.body" />
         </div>
 
         <!-- Article Footer -->
@@ -49,87 +115,33 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+
 const route = useRoute();
 
-// Mock blog posts data (same as in blog index)
-const blogPosts = [
-  {
-    title: "TypeScript Best Practices",
-    excerpt:
-      "Essential TypeScript patterns and practices that will make your code more maintainable and less error-prone.",
-    icon: "📘",
-    category: "チュートリアル",
-    date: "2024-10-08",
-    readTime: 9,
-    path: "/blog/typescript-best-practices",
-    content:
-      "<h1>TypeScript Best Practices</h1><p>TypeScriptのベストプラクティスについて...</p>",
-  },
-  {
-    title: "State Management in Vue 3",
-    excerpt:
-      "Deep dive into state management patterns in Vue 3, comparing Pinia, Vuex, and the Composition API approach.",
-    icon: "🗄️",
-    category: "チュートリアル",
-    date: "2024-10-12",
-    readTime: 12,
-    path: "/blog/state-management-vue3",
-    content:
-      "<h1>State Management in Vue 3</h1><p>Vue 3の状態管理について...</p>",
-  },
-  {
-    title: "Building Accessible Web Applications",
-    excerpt:
-      "A practical guide to creating web applications that are accessible to everyone, including people with disabilities.",
-    icon: "♿",
-    category: "チュートリアル",
-    date: "2024-10-15",
-    readTime: 10,
-    path: "/blog/building-accessible-web-apps",
-    content:
-      "<h1>Building Accessible Web Applications</h1><p>アクセシブルなWebアプリケーションの構築について...</p>",
-  },
-  {
-    title: "Case Study: E-Commerce Platform Redesign",
-    excerpt:
-      "How we improved conversion rates by 40% through a complete redesign and performance optimization of an e-commerce platform.",
-    icon: "📊",
-    category: "ケーススタディ",
-    date: "2024-10-10",
-    readTime: 15,
-    path: "/blog/ecommerce-platform-redesign",
-    content:
-      "<h1>Case Study: E-Commerce Platform Redesign</h1><p>Eコマースプラットフォームの改善事例について...</p>",
-  },
-  {
-    title: "The Future of Web Development",
-    excerpt:
-      "Exploring emerging trends and technologies that are shaping the future of web development, from AI integration to edge computing.",
-    icon: "🔮",
-    category: "オピニオン",
-    date: "2024-10-18",
-    readTime: 6,
-    path: "/blog/future-of-web-development",
-    content:
-      "<h1>The Future of Web Development</h1><p>Web開発の未来について...</p>",
-  },
-  {
-    title: "Getting Started with Nuxt 3 and Vue 3",
-    excerpt:
-      "Learn how to build modern web applications with Nuxt 3 and Vue 3. This comprehensive guide covers setup, routing, and best practices.",
-    icon: "🚀",
-    category: "チュートリアル",
-    date: "2024-10-20",
-    readTime: 8,
-    path: "/blog/getting-started-with-nuxt3",
-    content:
-      "<h1>Getting Started with Nuxt 3 and Vue 3</h1><p>Nuxt 3とVue 3の始め方について...</p>",
-  },
-];
+// Table of Contents state
+const isTocOpen = ref(false);
 
-// Find the current post
-const post = computed(() => {
-  return blogPosts.find((p) => p.path === route.path);
+// Fetch the blog post from Nuxt Content
+const { data: post } = await useAsyncData(`blog-${route.path}`, async () => {
+  const content = await queryCollection("blog").all();
+  const article = content.find((item: any) => item.path === route.path);
+
+  if (!article) {
+    return null;
+  }
+
+  return {
+    title: article.title,
+    excerpt: article.description,
+    icon: article.icon || "📝",
+    category: article.category || "その他",
+    date: article.date,
+    readTime: article.readTime ?? 5,
+    path: article.path,
+    body: article.body,
+    toc: article.body?.toc,
+  };
 });
 
 // If post not found, show 404

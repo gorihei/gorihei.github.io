@@ -97,7 +97,9 @@
                   <div
                     class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400"
                   >
-                    <span>⏱️ {{ post.readTime || 5 }}分で読めます</span>
+                    <span
+                      >⏱️ {{ post.readTime ?? "?" }}分で読めます（たぶん）</span
+                    >
                   </div>
                   <span
                     class="text-primary-600 dark:text-primary-400 font-semibold hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-300"
@@ -115,7 +117,10 @@
       <div v-if="paginatedPosts.length === 0" class="text-center py-20">
         <div class="text-6xl mb-4">📭</div>
         <p class="text-xl text-gray-600 dark:text-gray-400">
-          記事が見つかりませんでした
+          記事が見つかりませんでした。
+        </p>
+        <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">
+          まあ、そもそも記事自体ほとんどないんですけどね。
         </p>
       </div>
 
@@ -155,12 +160,23 @@ const currentPage = ref(1);
 const postsPerPage = 10;
 
 // Fetch blog posts from content directory
-const { data: articles } = await useAsyncData("blog-posts", () =>
-  queryContent("/blog")
-    .where({ _path: { $ne: "/blog/template" } })
-    .sort({ date: -1 })
-    .find()
-);
+const { data: articles } = (await useAsyncData("blog-posts", async () => {
+  const content = await queryCollection("blog").all();
+  console.log("Blog collection data:", content);
+  // Map to usable format
+  const blogPosts = content.map((item: any) => ({
+    ...item,
+    path: `/${item.stem}`,
+    category: item.category || "その他",
+    readTime: item.readTime ?? 5,
+    icon: item.icon || "📝",
+    excerpt: item.excerpt || item.description,
+  }));
+  console.log("Mapped blog posts:", blogPosts);
+  return blogPosts.sort(
+    (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+})) as { data: Ref<any[]> };
 
 // Extract unique categories from articles
 const categories = computed(() => {
