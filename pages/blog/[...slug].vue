@@ -58,9 +58,19 @@
 const route = useRoute()
 
 // Fetch the blog post from Nuxt Content
-const { data: post } = await useAsyncData(`blog-${route.path}`, () => 
-  queryCollection('content').path(route.path).first()
-)
+const { data: post } = await useAsyncData(`blog-${route.path}`, async () => {
+  const result = await queryCollection('content').path(route.path).first()
+  
+  if (!result) return null
+  
+  // Parse meta JSON and flatten
+  const meta = typeof result.meta === 'string' ? JSON.parse(result.meta) : (result.meta || {})
+  return {
+    ...result,
+    ...meta,
+    excerpt: result.description || result.excerpt || '',
+  }
+})
 
 // If post not found, show 404
 if (!post.value) {
