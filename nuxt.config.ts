@@ -17,7 +17,7 @@ export default defineNuxtConfig({
             "Personal portfolio website showcasing projects and blog posts",
         },
       ],
-      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+      link: [{ rel: "icon", type: "image/png", href: "/profile_icon.png" }],
     },
     pageTransition: { name: "page", mode: "out-in" },
     layoutTransition: { name: "layout", mode: "out-in" },
