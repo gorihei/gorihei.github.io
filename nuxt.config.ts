@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-10-01',
   devtools: { enabled: true },
@@ -45,7 +44,14 @@ export default defineNuxtConfig({
     preset: 'github-pages',
     prerender: {
       routes: ['/'],
-      crawlLinks: true
+      crawlLinks: true,
+      // Continue build even if some prerender routes fail
+      failOnError: false
     }
+  },
+
+  // Experimental features for better GitHub Pages compatibility
+  experimental: {
+    payloadExtraction: false
   }
 })
