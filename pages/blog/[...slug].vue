@@ -25,14 +25,6 @@
               ⏱️ {{ post.readTime }} min read
             </span>
           </div>
-
-          <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-800 dark:text-gray-100">
-            {{ post.title }}
-          </h1>
-          
-          <p class="text-xl text-gray-600 dark:text-gray-400">
-            {{ post.excerpt }}
-          </p>
         </div>
 
         <!-- Article Content -->
