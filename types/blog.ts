@@ -5,6 +5,6 @@ export interface BlogPost {
   category: string
   date: string
   readTime: number
-  _path: string
+  path: string
   body?: any
 }
