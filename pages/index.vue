@@ -1,68 +1,73 @@
 <template>
-  <div class="container mx-auto px-4 py-12">
-    <!-- Hero Section -->
-    <section class="min-h-[70vh] flex items-center justify-center">
-      <div class="text-center animate-fade-in">
-        <h1
-          class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 animate-slide-up"
-        >
-          ここは
-          <div class="inline-block align-middle mx-4">
-            <div
-              class="w-48 h-24 rounded-full bg-gradient-to-br from-primary-500 to-blue-600 flex items-center justify-center text-white text-4xl font-bold animate-float shadow-2xl"
-            >
-              Gori Hei
-            </div>
-          </div>
-          が
-          <span
-            class="block bg-gradient-to-r from-primary-600 to-blue-600 bg-clip-text text-transparent"
-          >
-            適当に作ったサイト
-          </span>
-        </h1>
-        <p
-          class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-8 animate-slide-up"
-          style="animation-delay: 0.2s"
-        >
-          まあ、暇つぶしに見ていってください
-        </p>
-      </div>
-    </section>
+  <div class="relative">
+    <!-- Earth Background -->
+    <EarthBackground />
 
-    <!-- Navigation Cards Section -->
-    <section class="py-12">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        <NuxtLink
-          v-for="(navCard, index) in navigationCards"
-          :key="navCard.path"
-          :to="navCard.path"
-          class="card group hover:scale-105 transition-all duration-300 cursor-pointer animate-slide-up"
-          :style="`animation-delay: ${index * 0.1}s`"
-        >
-          <div class="text-center">
-            <div
-              class="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300"
-            >
-              {{ navCard.icon }}
+    <div class="container mx-auto px-4 py-12 relative z-10">
+      <!-- Hero Section -->
+      <section class="min-h-[45vh] flex items-center justify-center">
+        <div class="text-center animate-fade-in">
+          <h1
+            class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-6 animate-slide-up"
+          >
+            ここは
+            <div class="inline-block align-middle mx-2 sm:mx-4">
+              <div
+                class="w-32 h-16 sm:w-40 sm:h-20 md:w-48 md:h-24 rounded-full bg-gradient-to-br from-primary-500 to-blue-600 flex items-center justify-center text-white text-2xl sm:text-3xl md:text-4xl font-bold animate-float shadow-2xl"
+              >
+                Gori Hei
+              </div>
             </div>
-            <h3
-              class="text-2xl font-bold mb-3 text-gray-800 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300"
-            >
-              {{ navCard.title }}
-            </h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
-              {{ navCard.description }}
-            </p>
+            が
             <span
-              class="inline-block text-primary-600 dark:text-primary-400 font-semibold group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors duration-300"
+              class="block bg-gradient-to-r from-primary-600 to-blue-600 bg-clip-text text-transparent"
             >
-              詳しく見る →
+              適当に作ったサイト
             </span>
-          </div>
-        </NuxtLink>
-      </div>
-    </section>
+          </h1>
+          <p
+            class="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-400 mb-8 animate-slide-up"
+            style="animation-delay: 0.2s"
+          >
+            まあ、暇つぶしに見ていってください
+          </p>
+        </div>
+      </section>
+
+      <!-- Navigation Cards Section -->
+      <section class="py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <NuxtLink
+            v-for="(navCard, index) in navigationCards"
+            :key="navCard.path"
+            :to="navCard.path"
+            class="card group hover:scale-105 transition-all duration-300 cursor-pointer animate-slide-up"
+            :style="`animation-delay: ${index * 0.1}s`"
+          >
+            <div class="text-center">
+              <div
+                class="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300"
+              >
+                {{ navCard.icon }}
+              </div>
+              <h3
+                class="text-2xl font-bold mb-3 text-gray-800 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300"
+              >
+                {{ navCard.title }}
+              </h3>
+              <p class="text-gray-600 dark:text-gray-400 mb-4">
+                {{ navCard.description }}
+              </p>
+              <span
+                class="inline-block text-primary-600 dark:text-primary-400 font-semibold group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors duration-300"
+              >
+                詳しく見る →
+              </span>
+            </div>
+          </NuxtLink>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 

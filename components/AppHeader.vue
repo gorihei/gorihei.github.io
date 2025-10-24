@@ -1,7 +1,7 @@
 <template>
   <header
     ref="headerRef"
-    class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 relative"
+    class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700"
     @mousemove="handleMouseMove"
   >
     <!-- Cute Eyes Mouse Stalker -->
@@ -36,7 +36,7 @@
           Gori Hei
         </NuxtLink>
 
-        <div class="hidden md:flex items-center space-x-4">
+        <div class="hidden lg:flex items-center space-x-4">
           <NuxtLink
             v-for="item in menuItems"
             :key="item.path"
@@ -50,7 +50,7 @@
           </div>
         </div>
 
-        <div class="md:hidden flex items-center gap-2">
+        <div class="lg:hidden flex items-center gap-2">
           <ThemeToggle />
           <button
             @click="toggleMobileMenu"
@@ -81,22 +81,64 @@
           </button>
         </div>
       </div>
-
-      <!-- Mobile Menu -->
-      <Transition name="slide-down">
-        <div v-if="isMobileMenuOpen" class="md:hidden mt-4 pb-4">
-          <NuxtLink
-            v-for="item in menuItems"
-            :key="item.path"
-            :to="item.path"
-            @click="closeMobileMenu"
-            class="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors duration-300"
-          >
-            {{ item.name }}
-          </NuxtLink>
-        </div>
-      </Transition>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <Transition name="fade">
+      <div
+        v-if="isMobileMenuOpen"
+        class="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        @click="closeMobileMenu"
+      />
+    </Transition>
+
+    <!-- Mobile Menu Sidebar -->
+    <Transition name="slide-right">
+      <div
+        v-if="isMobileMenuOpen"
+        class="fixed top-0 right-0 bottom-0 w-64 bg-white dark:bg-gray-900 shadow-xl z-50 lg:hidden"
+      >
+        <div class="p-4">
+          <div class="flex justify-between items-center mb-8">
+            <span
+              class="text-xl font-bold bg-gradient-to-r from-primary-600 to-blue-600 bg-clip-text text-transparent"
+            >
+              メニュー
+            </span>
+            <button
+              @click="closeMobileMenu"
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="Close menu"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <nav class="space-y-4">
+            <NuxtLink
+              v-for="item in menuItems"
+              :key="item.path"
+              :to="item.path"
+              @click="closeMobileMenu"
+              class="block py-3 px-4 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg font-medium transition-all duration-300"
+            >
+              {{ item.name }}
+            </NuxtLink>
+          </nav>
+        </div>
+      </div>
+    </Transition>
   </header>
 </template>
 
@@ -195,18 +237,25 @@ const rightPupilStyle = computed(() => {
   width: 100%;
 }
 
-.slide-down-enter-active,
-.slide-down-leave-active {
-  transition: all 0.3s ease;
+/* Fade transition for overlay */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
 }
 
-.slide-down-enter-from {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
-  transform: translateY(-10px);
 }
 
-.slide-down-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
+/* Slide transition for sidebar */
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.slide-right-enter-from,
+.slide-right-leave-to {
+  transform: translateX(100%);
 }
 </style>

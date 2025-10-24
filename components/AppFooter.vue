@@ -4,13 +4,7 @@
   >
     <div class="container mx-auto px-4 py-8">
       <div class="flex flex-col md:flex-row justify-between items-center">
-        <div class="mb-4 md:mb-0">
-          <p class="text-gray-600 dark:text-gray-400">
-            © {{ currentYear }} gorihei. All rights reserved.
-          </p>
-        </div>
-
-        <div class="flex space-x-6">
+        <div class="flex space-x-6 mb-4 md:mb-0">
           <a
             v-for="social in socialLinks"
             :key="social.name"
@@ -23,6 +17,12 @@
             <component :is="social.icon" />
           </a>
         </div>
+
+        <div>
+          <p class="text-gray-600 dark:text-gray-400">
+            © {{ currentYear }} gorihei. All rights reserved.
+          </p>
+        </div>
       </div>
     </div>
   </footer>
@@ -30,6 +30,9 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import IconGitHub from "./IconGitHub.vue";
+import IconTwitter from "./IconTwitter.vue";
+import IconLinkedIn from "./IconLinkedIn.vue";
 
 const currentYear = computed(() => new Date().getFullYear());
 
@@ -37,17 +40,17 @@ const socialLinks = [
   {
     name: "GitHub",
     url: "https://github.com/gorihei",
-    icon: "IconGitHub",
+    icon: IconGitHub,
   },
-  {
-    name: "Twitter",
-    url: "https://twitter.com/gorihei",
-    icon: "IconTwitter",
-  },
-  {
-    name: "LinkedIn",
-    url: "https://linkedin.com/in/gorihei",
-    icon: "IconLinkedIn",
-  },
+  // {
+  //   name: "Twitter",
+  //   url: "https://twitter.com/gorihei",
+  //   icon: IconTwitter,
+  // },
+  // {
+  //   name: "LinkedIn",
+  //   url: "https://linkedin.com/in/gorihei",
+  //   icon: IconLinkedIn,
+  // },
 ];
 </script>
