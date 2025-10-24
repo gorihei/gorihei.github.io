@@ -5,7 +5,8 @@ export default defineNuxtConfig({
   
   modules: [
     '@nuxtjs/tailwindcss',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    '@nuxt/content'
   ],
 
   app: {
@@ -26,11 +27,26 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  // Nuxt Content configuration
+  content: {
+    highlight: {
+      theme: {
+        default: 'github-light',
+        dark: 'github-dark'
+      }
+    }
+  },
+
   // GitHub Pages deployment configuration
   ssr: false,
   target: 'static',
-  
+
+  // Prerender blog posts for static generation
   nitro: {
-    preset: 'github-pages'
+    preset: 'github-pages',
+    prerender: {
+      routes: ['/'],
+      crawlLinks: true
+    }
   }
 })
